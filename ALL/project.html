@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reservation System and Drag and Drop Form Builder</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav class="navbar">
+    <ul>
+      <li><a href="signin.html" class="nav-link">Sign In</a></li>
+      <li><a href="about.html" class="nav-link">About Us</a></li>
+      <li><a href="#registration" class="nav-link">Registration Form</a></li>
+      <li><a href="#contact" class="nav-link">Contact</a></li>
+    </ul>
+  </nav>
+  
+  <div class="container">
+    <h1>Welcome to the Reservation System</h1>
+
+    <!-- About Us Section -->
+    <section id="about">
+      <h2>About Us</h2>
+      
+      <p>We are dedicated to providing a seamless and efficient platform for booking reservations for various services including hotels, restaurants, flights, and events. Our goal is to enhance user experience by offering a user-friendly interface, reliable service, and easy management of bookings.</p>
+      
+      <p>Our team consists of skilled developers, designers, and customer support professionals who work tirelessly to ensure that our system meets the needs of our users.</p>
+      
+      <p>If you have any questions, feedback, or suggestions, feel free to contact us. We are here to assist you!</p>
+    </section>
+    
+    <!-- Registration Form Section -->
+    <section id="registration">
+      <h2>Registration Form</h2>
+      <form id="registration-form" action="#" method="POST">
+        <label for="fullname">Full Name:</label>
+        <input type="text" id="fullname" name="fullname" required>
+    
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+    
+        <label for="phone">Phone:</label>
+        <input type="tel" id="phone" name="phone" required>
+
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" name="dob" required>
+        <br> <!-- Added line break for spacing -->
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+    
+        <button type="submit">Register</button>
+      </form>
+    </section>
+  </div>
+
+  <!-- Drag and Drop Form Builder Section -->
+  <section id="form-builder">
+    <h2>Drag and Drop Form Builder</h2>
+    <div class="container">
+      <div class="item" draggable="true" data-type="input">Text Input</div>
+      <div class="item" draggable="true" data-type="textarea">Text Area</div>
+    </div>
+    <div class="form-area" id="form-area" ondragover="allowDrop(event)" ondrop="drop(event)">
+      Drop items here to build your form
+    </div>
+  </section>
+
+  <!-- Visitor Count Section -->
+  <div class="visitor-count">
+    <h2>Visitor Count</h2>
+    <p>Number of visitors: <span id="visitor-count">0</span></p>
+    <button onclick="incrementVisitorCount()" class="btn btn-visit">Visit</button>
+  </div>
+
+  <footer class="footer" id="contact">
+    <div class="footer-content">
+      <div class="policy">
+        <h3>Policy</h3>
+        <p>Include your policy details here.</p>
+      </div>
+      <div class="enquiry">
+        <h3>Enquiry</h3>
+        <p>For any enquiries, contact us at <a href="mailto:enquiry@example.com">enquiry@example.com</a>.</p>
+      </div>
+      <div class="contact-details">
+        <h3>Contact Details</h3>
+        <p>123 Reservation St, Cityville, Country</p>
+        <p>Phone: +123456789</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    let visitorCount = 0;
+
+    function incrementVisitorCount() {
+      visitorCount++;
+      document.getElementById('visitor-count').innerText = visitorCount;
+    }
+
+    function allowDrop(event) {
+      event.preventDefault();
+      const formArea = document.getElementById('form-area');
+      formArea.classList.add('drag-over');
+    }
+
+    function drop(event) {
+      event.preventDefault();
+      const formArea = document.getElementById('form-area');
+      formArea.classList.remove('drag-over');
+      const dataType = event.dataTransfer.getData('data-type');
+      const formItem = document.createElement('div');
+      formItem.classList.add('form-item');
+      formItem.textContent = dataType;
+      formArea.appendChild(formItem);
+    }
+
+    document.querySelectorAll('.item').forEach(item => {
+      item.addEventListener('dragstart', event => {
+        event.dataTransfer.setData('data-type', item.getAttribute('data-type'));
+      });
+    });
+  </script>
+</body>
+</html>

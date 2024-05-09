@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Drag and Drop Form Builder</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .item {
+        background-color: #ea0000;
+        border: 1px solid #190f0f;
+        border-radius: 5px;
+        padding: 10px;
+        margin: 5px;
+        cursor: pointer;
+    }
+
+    .form-area {
+        border: 2px dashed #ccc;
+        min-height: 200px;
+        margin-top: 20px;
+        padding: 20px;
+        position: relative;
+    }
+
+    .form-area.drag-over {
+        border-color: #aaa;
+    }
+
+    .form-item {
+        position: absolute;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 5px;
+    }
+</style>
+</head>
+<body>
+<h2>Drag and Drop Form Builder</h2>
+<div class="container">
+    <div class="item" draggable="true" data-type="input">Text Input</div>
+    <div class="item" draggable="true" data-type="textarea">Text Area</div>
+    
+<div class="form-area" id="form-area" ondragover="allowDrop(event)" ondrop="drop(event)">
+    Drop items here to build your form
+</div>
+<script>
+    function allowDrop(event) {
+        event.preventDefault();
+        const formArea = document.getElementById('form-area');
+        formArea.classList.add('drag-over');
+    }
+
+    function drop(event) {
+        event.preventDefault();
+        const formArea = document.getElementById('form-area');
+        formArea.classList.remove('drag-over');
+        const dataType = event.dataTransfer.getData('data-type');
+        const formItem = document.createElement('div');
+        formItem.classList.add('form-item');
+        formItem.textContent = dataType;
+        formArea.appendChild(formItem);
+    }
+
+    document.querySelectorAll('.item').forEach(item => {
+        item.addEventListener('dragstart', event => {
+            event.dataTransfer.setData('data-type', item.getAttribute('data-type'));
+        });
+    });
+</script>
+</body>
+</html>
